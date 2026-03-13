@@ -4,16 +4,14 @@ This repo stores a skill for Apple Notes.app integration on macOS via AppleScrip
 
 ## Installation
 
-Install with `skills.sh`:
+```bash
+npx skills add vinitu/macos-notes-skill
+```
+
+Or with [skills.sh](https://skills.sh):
 
 ```bash
 skills.sh add vinitu/macos-notes-skill
-```
-
-If you use the npm installer instead:
-
-```bash
-npx skills add vinitu/macos-notes-skill
 ```
 
 ## Scope
@@ -31,21 +29,20 @@ npx skills add vinitu/macos-notes-skill
 
 ## How To Use
 
+From the skill directory (or path where scripts are installed):
+
 ```bash
-# List all folders
-osascript -e 'tell application "Notes" to return name of every folder'
-
-# List notes in a folder
-osascript -e 'tell application "Notes" to return name of every note of folder "Notes"'
-
-# Create a note
-osascript -e 'tell application "Notes" to tell folder "Notes" to make new note with properties {name:"My Note", body:"<p>Hello</p>"}'
-
-# Search notes
-osascript -e 'tell application "Notes" to return name of every note whose plaintext contains "search term"'
+# List all note folders (id and name)
+osascript scripts/folder/list.applescript
+# List notes in folder "Notes"
+osascript scripts/note/list.applescript "Notes"
+# Create note in folder "Notes" with name and HTML body
+osascript scripts/note/create.applescript "Notes" "My Note" "<p>Hello</p>"
+# Search notes by plaintext content
+osascript scripts/note/search.applescript "search term"
 ```
 
-For the full command set and examples, see `SKILL.md`.
+For the full command set and examples, see `SKILL.md` and scripts under `scripts/`.
 
 ## Troubleshooting
 
