@@ -1,6 +1,6 @@
 # Repo Guide
 
-This repo stores a skill for Apple Notes.app integration on macOS.
+This repo stores a skill for macOS Notes.app integration.
 
 ## Goal
 

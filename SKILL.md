@@ -1,9 +1,9 @@
 ---
-name: apple-notes
+name: macos-notes
 description: Create, read, update, and organize notes in Apple Notes.app on macOS. Use for note-taking, lists, drafts, or any text the user wants to save. Triggers on queries about notes, writing something down, saving information, or Apple Notes.
 ---
 
-# Apple Notes Integration
+# macOS Notes Integration
 
 Create, read, update, delete, and search notes in Apple Notes.app using AppleScript (`osascript`) on macOS.
 

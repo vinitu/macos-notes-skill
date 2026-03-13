@@ -1,4 +1,4 @@
-# Apple Notes Skill
+# macOS Notes Skill
 
 This repo stores a skill for Apple Notes.app integration on macOS via AppleScript (`osascript`).
 
@@ -7,13 +7,13 @@ This repo stores a skill for Apple Notes.app integration on macOS via AppleScrip
 Install with `skills.sh`:
 
 ```bash
-skills.sh add vinitu/apple-notes-skill
+skills.sh add vinitu/macos-notes-skill
 ```
 
 If you use the npm installer instead:
 
 ```bash
-npx skills add vinitu/apple-notes-skill
+npx skills add vinitu/macos-notes-skill
 ```
 
 ## Scope
