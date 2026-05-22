@@ -32,10 +32,28 @@ scripts/commands/<entity>/<action>.sh [args...]
 
 ## Backend Map
 
+- `scripts/commands/account/*` → AppleScript in `scripts/applescripts/account/*`
+- `scripts/commands/application/*` → AppleScript in `scripts/applescripts/application/*`
+- `scripts/commands/attachment/*` → AppleScript in `scripts/applescripts/attachment/*`
 - `scripts/commands/folder/*` → AppleScript in `scripts/applescripts/folder/*`
 - `scripts/commands/note/*` → AppleScript in `scripts/applescripts/note/*`
 
 ## Command Surface
+
+Account:
+
+- `scripts/commands/account/default-account.sh`
+- `scripts/commands/account/default-folder.sh`
+
+Application:
+
+- `scripts/commands/application/selection.sh`
+
+Attachment:
+
+- `scripts/commands/attachment/get.sh`
+- `scripts/commands/attachment/list.sh`
+- `scripts/commands/attachment/save.sh`
 
 Folder:
 

@@ -21,10 +21,34 @@ Do not call `scripts/applescripts` directly.
 
 Run commands from `scripts/commands`:
 
+- `scripts/commands/account/*`
+- `scripts/commands/application/*`
+- `scripts/commands/attachment/*`
 - `scripts/commands/folder/*`
 - `scripts/commands/note/*`
 
 ## Commands
+
+### Account
+
+```bash
+scripts/commands/account/default-account.sh
+scripts/commands/account/default-folder.sh
+```
+
+### Application
+
+```bash
+scripts/commands/application/selection.sh
+```
+
+### Attachment
+
+```bash
+scripts/commands/attachment/get.sh
+scripts/commands/attachment/list.sh
+scripts/commands/attachment/save.sh
+```
 
 ### Folder
 
@@ -50,6 +74,33 @@ scripts/commands/note/search.sh
 scripts/commands/note/show.sh
 scripts/commands/note/update.sh
 ```
+
+## JSON Contract
+
+Note object:
+
+- `id` (string)
+- `name` (string)
+- `body` (string)
+- `creation_date` (string, ISO 8601)
+- `modification_date` (string, ISO 8601)
+- `folder` (string)
+
+Folder object:
+
+- `id` (string)
+- `name` (string)
+- `account` (string)
+
+Account object:
+
+- `name` (string)
+- `default_folder` (string)
+
+Scalar envelopes:
+
+- `count`: `{"count": N}`
+- `success/failure`: `{"success": true/false, "error": "..."}`
 
 ## Safety Boundaries
 
