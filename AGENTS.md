@@ -2,6 +2,12 @@
 
 This repo stores a skill for macOS Notes.app integration.
 
+## Public interface and internal backend
+
+- `scripts/commands/` is the only public command surface. Run commands from the repo root with paths like `scripts/commands/<entity>/<action>.sh`.
+- `scripts/applescripts/` is the internal backend. Do not call AppleScript files directly from skill instructions.
+- Only commands listed in `SKILL.md` are public. Other scripts may exist for internal use or legacy cleanup.
+
 ## Goal
 
 - Document the AppleScript commands for Notes.app accurately.
@@ -14,12 +20,12 @@ This repo stores a skill for macOS Notes.app integration.
 - `SKILL.md`: the skill contract and usage instructions for agents.
 - `README.md`: public project overview and installation notes.
 - `Makefile`: targets `dictionary-notes`, `check`, `compile`, `test` (test-dictionary + test-smoke).
-- `scripts/folder/list.applescript`: list note folder id and name.
-- `scripts/folder/create.applescript`, `scripts/folder/get.applescript` (shared, container).
-- `scripts/note/list.applescript`, `scripts/note/get.applescript`, `scripts/note/create.applescript`, `scripts/note/update.applescript`, `scripts/note/append.applescript`, `scripts/note/delete.applescript`, `scripts/note/search.applescript`, `scripts/note/metadata.applescript`, `scripts/note/count.applescript`, `scripts/note/move.applescript`, `scripts/note/open-location.applescript`, `scripts/note/show.applescript`.
-- `scripts/account/default-account.applescript`, `scripts/account/default-folder.applescript`.
-- `scripts/attachment/list.applescript`, `scripts/attachment/get.applescript`, `scripts/attachment/save.applescript`.
-- `scripts/application/selection.applescript`.
+- `scripts/applescripts/folder/list.applescript`: list note folder id and name.
+- `scripts/applescripts/folder/create.applescript`, `scripts/applescripts/folder/get.applescript` (shared, container).
+- `scripts/applescripts/note/list.applescript`, `scripts/applescripts/note/get.applescript`, `scripts/applescripts/note/create.applescript`, `scripts/applescripts/note/update.applescript`, `scripts/applescripts/note/append.applescript`, `scripts/applescripts/note/delete.applescript`, `scripts/applescripts/note/search.applescript`, `scripts/applescripts/note/metadata.applescript`, `scripts/applescripts/note/count.applescript`, `scripts/applescripts/note/move.applescript`, `scripts/applescripts/note/open-location.applescript`, `scripts/applescripts/note/show.applescript`.
+- `scripts/applescripts/account/default-account.applescript`, `scripts/applescripts/account/default-folder.applescript`.
+- `scripts/applescripts/attachment/list.applescript`, `scripts/applescripts/attachment/get.applescript`, `scripts/applescripts/attachment/save.applescript`.
+- `scripts/applescripts/application/selection.applescript`.
 - `tests/dictionary_contract.sh`: contract test against Notes.app scripting dictionary.
 - `tests/smoke_notes.sh`: smoke test for script layer (skips when Notes.app not available).
 - `.github/workflows/ci-pr.yml`: PR validation, auto-merge, version bump, tag, and release flow.
