@@ -26,10 +26,27 @@ This repo stores a skill for macOS Notes.app integration.
 - `scripts/applescripts/account/default-account.applescript`, `scripts/applescripts/account/default-folder.applescript`.
 - `scripts/applescripts/attachment/list.applescript`, `scripts/applescripts/attachment/get.applescript`, `scripts/applescripts/attachment/save.applescript`.
 - `scripts/applescripts/application/selection.applescript`.
-- `tests/dictionary_contract.sh`: contract test against Notes.app scripting dictionary.
-- `tests/smoke_notes.sh`: smoke test for script layer (skips when Notes.app not available).
+- `scripts/tests/dictionary_contract.sh`: contract test against Notes.app scripting dictionary.
+- `scripts/tests/smoke_notes.sh`: smoke test for script layer (skips when Notes.app not available).
 - `.github/workflows/ci-pr.yml`: PR validation, auto-merge, version bump, tag, and release flow.
 - `.github/workflows/ci-main.yml`: main-branch validation, patch tag, and release flow.
+
+## Source of Truth
+
+- `make dictionary-notes` / `make dictionary-standard` for the live Notes.app scripting dictionary.
+- Live checks with `osascript` against Notes.app.
+
+## Pitfalls / Environment Limits
+
+- Notes.app automation may need **Notes** or **Full Disk Access** permission (System Settings → Privacy & Security).
+- iCloud vs local notes may behave differently.
+- Attachment operations may require Full Disk Access.
+
+## Safety Rules
+
+- Treat note data as real user data.
+- Write operations (note/create, note/update, note/append, note/delete, note/move, folder/create) must be explicit.
+- Use the `CodexTest_` prefix for any test data and clean up after tests.
 
 ## Validation
 
