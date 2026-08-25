@@ -77,36 +77,30 @@ scripts/commands/note/update.sh
 
 ## Output Rules
 
-- Commands return JSON by default unless noted otherwise.
-- `show.sh` opens the app and returns a small JSON envelope.
+- Commands print the raw AppleScript result as plain text. There is no JSON envelope.
+- Multi-row results are tab-separated, one record per line.
 - `--json`, `--plain`, and `--format=plain|json` are not supported.
+- A command called without its required arguments prints `Usage: <backend>.applescript <args>` and exits 0, so check the output, not only the exit code.
+- `show.sh` and `open-location.sh` bring Notes.app to the front as a side effect.
 
-## JSON Contract
+## Output Contract
 
-Note object:
+Tab-separated columns per command:
 
-- `id` (string)
-- `name` (string)
-- `body` (string)
-- `creation_date` (string, ISO 8601)
-- `modification_date` (string, ISO 8601)
-- `folder` (string)
+| Command | Columns |
+| --- | --- |
+| `folder/list.sh` | `id`, `name` |
+| `note/list.sh <folder>` | `id`, `name`, `modification date` |
+| `note/search.sh <query>` | `name`, `modification date` |
+| `note/count.sh <folder>` | a single integer |
+| `account/default-account.sh` | account name |
+| `account/default-folder.sh` | folder name |
+| `application/selection.sh` | selected note names, one per line (empty when nothing is selected) |
+| `folder/get.sh <folder> [property]` | `name:`, `id:`, `shared:`, `container:` lines, or one value when a property is named |
 
-Folder object:
+Dates come from AppleScript in the local system format, not ISO 8601.
 
-- `id` (string)
-- `name` (string)
-- `account` (string)
-
-Account object:
-
-- `name` (string)
-- `default_folder` (string)
-
-Scalar envelopes:
-
-- `count`: `{"count": N}`
-- `success/failure`: `{"success": true/false, "error": "..."}`
+`container:` is the parent of the folder, which can be another folder rather than an account. It is empty when Notes refuses to resolve it.
 
 ## Safety Boundaries
 
