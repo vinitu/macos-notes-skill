@@ -82,6 +82,16 @@ scripts/commands/note/update.sh
 - `--json`, `--plain`, and `--format=plain|json` are not supported.
 - A command called without its required arguments prints `Usage: <backend>.applescript <args>` and exits 0, so check the output, not only the exit code.
 - `show.sh` and `open-location.sh` bring Notes.app to the front as a side effect.
+- `folder/create.sh` and `note/create.sh` return `created` and the new object ID, separated by a tab.
+
+## Folder and Note References
+
+Folder and note arguments accept either a name or a stable `x-coredata://...` ID. Prefer IDs when names can be duplicated or can change.
+
+- `folder/list.sh` and `note/list.sh` return IDs.
+- `folder/create.sh` and `note/create.sh` return the ID of the new object.
+- `note/update.sh` replaces the body. Notes normally uses the first body line as the title, so use a note ID when the title may change and you need to find the note afterwards.
+- When a folder argument is supplied, note IDs are resolved inside that folder.
 
 ## Output Contract
 
@@ -90,17 +100,23 @@ Tab-separated columns per command:
 | Command | Columns |
 | --- | --- |
 | `folder/list.sh` | `id`, `name` |
-| `note/list.sh <folder>` | `id`, `name`, `modification date` |
+| `folder/create.sh <name>` | `created`, `id` |
+| `note/list.sh <folder\|id>` | `id`, `name`, `modification date` |
+| `note/create.sh <folder\|id> <name> <bodyHTML>` | `created`, `id` |
 | `note/search.sh <query>` | `name`, `modification date` |
-| `note/count.sh <folder>` | a single integer |
+| `note/count.sh <folder\|id>` | a single integer |
 | `account/default-account.sh` | account name |
 | `account/default-folder.sh` | folder name |
 | `application/selection.sh` | selected note names, one per line (empty when nothing is selected) |
-| `folder/get.sh <folder> [property]` | `name:`, `id:`, `shared:`, `container:` lines, or one value when a property is named |
+| `folder/get.sh <folder\|id> [property]` | `name:`, `id:`, `shared:`, `container:` lines, or one value when a property is named |
+| `attachment/list.sh <folder\|id> <note\|id>` | `name` (or `<unnamed>`), `id`, 1-based `index` |
+| `attachment/save.sh <folder\|id> <note\|id> <name\|index> <path>` | `saved` on success |
 
 Dates come from AppleScript in the local system format, not ISO 8601.
 
 `container:` is the parent of the folder, which can be another folder rather than an account. It is empty when Notes refuses to resolve it.
+
+`attachment/list.sh` returns `<unnamed>` for attachments that have no filename, such as tables. `attachment/save.sh` accepts either the attachment name or its 1-based index. The path may be a full file path or an existing directory; when it is a directory, the attachment filename is appended. Attachments without a filename cannot be exported, and the command reports a non-file attachment error.
 
 ## Safety Boundaries
 

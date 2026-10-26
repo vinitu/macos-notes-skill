@@ -37,17 +37,42 @@ default_folder="$(run_cmd "account/default-folder" "$CMD/account/default-folder.
 folder_list="$(run_cmd "folder/list" "$CMD/folder/list.sh")"
 [ -n "$folder_list" ] || fail "folder/list returned nothing"
 
-first_folder="$(printf '%s\n' "$folder_list" | head -1 | cut -f2)"
+first_folder_line="$(printf '%s\n' "$folder_list" | head -1)"
+first_folder_id="$(printf '%s\n' "$first_folder_line" | cut -f1)"
+first_folder="$(printf '%s\n' "$first_folder_line" | cut -f2)"
 [ -n "$first_folder" ] || fail "folder/list produced no folder name in column 2"
 
 run_cmd "folder/get" "$CMD/folder/get.sh" "$first_folder" >/dev/null
 
-# note: list and count for a real folder.
-run_cmd "note/list" "$CMD/note/list.sh" "$first_folder" >/dev/null
+# folder/get must also accept the stable ID returned by folder/list.
+folder_name_by_id="$(run_cmd "folder/get by id" "$CMD/folder/get.sh" "$first_folder_id" name)"
+[ "$folder_name_by_id" = "$first_folder" ] || fail "folder/get by id returned $folder_name_by_id, expected $first_folder"
+
+# note: list and count for a real folder, by name and by ID.
+note_list="$(run_cmd "note/list" "$CMD/note/list.sh" "$first_folder")"
+run_cmd "note/list by id" "$CMD/note/list.sh" "$first_folder_id" >/dev/null
 
 count="$(run_cmd "note/count" "$CMD/note/count.sh" "$first_folder")"
 case "$count" in
 '' | *[!0-9]*) fail "note/count returned a non-number: $count" ;;
+esac
+
+# note/metadata is read-only and must accept both folder and note IDs.
+first_note_line="$(printf '%s\n' "$note_list" | head -1)"
+if [ -n "$first_note_line" ]; then
+	first_note_id="$(printf '%s\n' "$first_note_line" | cut -f1)"
+	metadata="$(run_cmd "note/metadata by ids" "$CMD/note/metadata.sh" "$first_folder_id" "$first_note_id")"
+	case "$metadata" in
+	*"ID: $first_note_id"*) : ;;
+	*) fail "note/metadata by ids did not return the requested note ID" ;;
+	esac
+fi
+
+# note/list without an argument must report its usage contract.
+list_usage="$("$CMD/note/list.sh" 2>&1 || true)"
+case "$list_usage" in
+Usage:*) : ;;
+*) fail "note/list without an argument did not print usage: $list_usage" ;;
 esac
 
 # note/search accepts any query; an empty result set is still a success.

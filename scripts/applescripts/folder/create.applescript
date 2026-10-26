@@ -1,4 +1,5 @@
 -- Create a folder. argv: folderName
+-- Returns: created TAB folderId
 on run argv
 	if (count of argv) < 1 then
 		return "Usage: create.applescript <folderName>"
@@ -6,7 +7,7 @@ on run argv
 	set folderName to item 1 of argv
 
 	tell application "Notes"
-		make new folder with properties {name:folderName}
+		set newFolder to make new folder with properties {name:folderName}
+		return "created" & tab & (id of newFolder)
 	end tell
-	return "created"
 end run

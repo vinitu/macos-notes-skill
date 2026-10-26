@@ -1,15 +1,18 @@
--- List notes in a folder. argv: [folderName] (default: first folder)
+-- List notes in a folder. argv: folderName|folderId
 -- One line per note: id TAB name TAB modification date
 on run argv
+	if (count of argv) < 1 then
+		return "Usage: list.applescript <folderName|folderId>"
+	end if
+	set folderSpec to item 1 of argv
+
 	tell application "Notes"
-		set flds to folders
-		if (count of flds) is 0 then
-			return ""
-		end if
-		if (count of argv) ≥ 1 then
-			set targetFolder to folder (item 1 of argv)
-		else
-			set targetFolder to item 1 of flds
+		set targetFolder to missing value
+		try
+			set targetFolder to folder folderSpec
+		end try
+		if targetFolder is missing value then
+			set targetFolder to first folder whose id is folderSpec
 		end if
 		set output to ""
 		repeat with n in notes of targetFolder

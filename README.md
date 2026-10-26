@@ -82,3 +82,9 @@ Note:
 make compile
 make test
 ```
+
+Write tests create and remove a temporary folder, note and attachment in Notes.app. They are opt-in:
+
+```bash
+make test-integration
+```

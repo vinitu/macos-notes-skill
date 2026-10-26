@@ -1,4 +1,4 @@
--- Get folder properties (shared, container). argv: folderName [property]
+-- Get folder properties (shared, container). argv: folderName|folderId [property]
 on containerNameOf(f)
 	-- "name of container of f" fails with error -1700 when the container is a
 	-- folder rather than an account, so resolve the container in two steps.
@@ -14,14 +14,20 @@ end containerNameOf
 
 on run argv
 	if (count of argv) < 1 then
-		return "Usage: get.applescript <folderName> [property]"
+		return "Usage: get.applescript <folderName|folderId> [property]"
 	end if
 	set folderName to item 1 of argv
 	set propName to ""
 	if (count of argv) ≥ 2 then set propName to item 2 of argv
 
 	tell application "Notes"
-		set f to folder folderName
+		set f to missing value
+		try
+			set f to folder folderName
+		end try
+		if f is missing value then
+			set f to first folder whose id is folderName
+		end if
 		if propName is "shared" then
 			return shared of f
 		else if propName is "container" then

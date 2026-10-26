@@ -4,7 +4,9 @@ on run argv
 		set sel to selection
 		set output to ""
 		repeat with n in sel
-			set output to output & (name of n) & linefeed
+			set noteName to name of n
+			if noteName is missing value then set noteName to "<unnamed>"
+			set output to output & noteName & linefeed
 		end repeat
 		return output
 	end tell

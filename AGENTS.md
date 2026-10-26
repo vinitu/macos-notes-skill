@@ -27,7 +27,8 @@ This repo stores a skill for macOS Notes.app integration.
 - `scripts/applescripts/attachment/list.applescript`, `scripts/applescripts/attachment/get.applescript`, `scripts/applescripts/attachment/save.applescript`.
 - `scripts/applescripts/application/selection.applescript`.
 - `tests/dictionary_contract.sh`: contract test against Notes.app scripting dictionary.
-- `tests/smoke_notes.sh`: smoke test for the public `scripts/commands` surface (skips only when Notes.app is not available).
+- `tests/smoke_notes.sh`: read-only smoke test for the public `scripts/commands` surface (skips only when Notes.app is not available).
+- `tests/write_notes.sh`: opt-in write integration test that creates and removes a temporary folder, note and attachment.
 - `.github/workflows/ci-pr.yml`: PR validation, auto-merge, version bump, tag, and release flow.
 - `.github/workflows/ci-main.yml`: main-branch validation, patch tag, and release flow.
 
@@ -35,7 +36,8 @@ This repo stores a skill for macOS Notes.app integration.
 
 After making changes:
 - run `make check` to ensure Notes.app is available;
-- run `make test` to run dictionary contract and smoke tests;
+- run `make test` to run dictionary contract and read-only smoke tests;
+- run `make test-integration` to exercise commands that create, update, move and delete a temporary note and attachment;
 - run `make compile` to compile all AppleScript files (syntax check);
 - update `SKILL.md` when command coverage changes.
 
